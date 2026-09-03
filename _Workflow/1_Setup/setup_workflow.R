@@ -210,14 +210,27 @@ print(paste0("land_connections_as_lines.shp is prepared in ", dir_path,
 ## Information about how to prepare atmospheric deposition data is on this webpage:
 ## https://biopsichas.github.io/SWATprepR/articles/deposition.html
 
-## Downloading atmospheric deposition data
-atmo_file <- file.path(data_path, 'for_prepr', 'atmo_dep.csv')
-if (file.exists(atmo_file)) {
-  df <- readr::read_csv(atmo_file, show_col_types = FALSE)
-  df$DATE <- as.Date(df$DATE)
+## Atmospheric deposition must be catchment-specific. No fixed values are
+## bundled with this reusable workflow.
+if (identical(atmo_dep_mode, 'file')) {
+  if (!nzchar(atmo_dep_file) || !file.exists(atmo_dep_file)) {
+    stop("Set atmo_dep_file or SWAT_ATMO_DEP_FILE to a catchment-specific CSV.")
+  }
+  df <- readr::read_csv(atmo_dep_file, show_col_types = FALSE)
+} else if (identical(atmo_dep_mode, 'emep')) {
+  if ((is.character(atmo_dep_netcdf_source) &&
+       (length(atmo_dep_netcdf_source) == 0L || !nzchar(atmo_dep_netcdf_source)))) {
+    stop("Set atmo_dep_netcdf_source or SWAT_ATMO_DEP_NETCDF to a current ",
+         "EMEP NetCDF template or source list.")
+  }
+  df <- get_atmo_dep(file.path(dir_path, 'data/vector/basin.shp'),
+                     t_ext = atmo_dep_download_timestep,
+                     start_year = st_year, end_year = end_year,
+                     netcdf_source = atmo_dep_netcdf_source)
+} else if (identical(atmo_dep_mode, 'none')) {
+  message('Atmospheric deposition is not configured; leaving it disabled.')
 } else {
-  df <- get_atmo_dep(paste0(dir_path, "/data/vector/basin.shp"),
-                     start_year = st_year, end_year = end_year)
+  stop("atmo_dep_mode must be 'none', 'file', or 'emep'.")
 }
 
 # ##You can plot downloaded results with this code
@@ -227,7 +240,9 @@ if (file.exists(atmo_file)) {
 #   theme_bw()
 
 ## Adding atmospheric deposition data to the model setup
-add_atmo_dep(df, dir_path, t_ext = "annual")
+if (!identical(atmo_dep_mode, 'none')) {
+  add_atmo_dep(df, dir_path, t_ext = atmo_dep_model_timestep)
+}
 
 ## >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 ## 9) Linking aquifers and channels with geomorphic flow -----

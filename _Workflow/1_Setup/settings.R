@@ -35,6 +35,17 @@ weather_path <- paste0(data_path, '/for_prepr/met_int.rds')
 
 pnt_path <- paste0(data_path, '/for_prepr/pnt_data.xlsx')
 
+## Atmospheric deposition configuration. Choose one mode explicitly:
+##   "none" - do not add atmospheric deposition;
+##   "file" - read a catchment-specific CSV from atmo_dep_file;
+##   "emep" - extract the catchment from one NetCDF source per year.
+## A NetCDF template must contain {year} and may contain {timestep}.
+atmo_dep_mode <- Sys.getenv('SWAT_ATMO_DEP_MODE', unset = 'none')
+atmo_dep_file <- Sys.getenv('SWAT_ATMO_DEP_FILE', unset = '')
+atmo_dep_netcdf_source <- Sys.getenv('SWAT_ATMO_DEP_NETCDF', unset = '')
+atmo_dep_download_timestep <- 'year'
+atmo_dep_model_timestep <- 'annual'
+
 ## Other settings
 
 ## For scripts to get to work directory of setup_workflow.R

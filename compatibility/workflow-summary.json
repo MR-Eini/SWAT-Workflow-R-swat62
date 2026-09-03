@@ -2,6 +2,7 @@
   "executable": "swatplus-62-ifo-win_amd64-Rel.exe",
   "compiler": "Intel",
   "revision": 62,
+  "atmospheric_deposition": "catchment-specific external test fixture; no fixed values bundled",
   "setup": {
     "hru_count": 314,
     "simulation_start": 2004,
