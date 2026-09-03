@@ -47,8 +47,8 @@ library(SWATfarmR)
 library(tidyverse)
 library(zoo)
 source('./functions_write_SWATfarmR_input.R')
-foo1(c("sf" , "tidyverse" , "lubridate", "reshape2", "remotes", "dplyr", "data.table"))
-foo2("HighFreq")
+foo1(c("sf", "lubridate", "dplyr", "readr", "purrr", "stringr", "data.table", "reshape2"))
+
 
 # Define input files-----------------------------------------------------------------
 

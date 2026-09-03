@@ -1,0 +1,21 @@
+{
+  "executable": "swatplus-62-ifo-win_amd64-Rel.exe",
+  "compiler": "Intel",
+  "revision": 62,
+  "setup": {
+    "hru_count": 314,
+    "simulation_start": 2004,
+    "simulation_end": 2023,
+    "exit_status": 0,
+    "completion_message": true,
+    "clean_setup_files": 260
+  },
+  "scenarios": [
+    {"name": "statusquo", "exit_status": 0},
+    {"name": "covcrop", "exit_status": 0},
+    {"name": "rotation", "exit_status": 0},
+    {"name": "afforestation", "exit_status": 0},
+    {"name": "pond", "exit_status": 0},
+    {"name": "all", "exit_status": 0}
+  ]
+}

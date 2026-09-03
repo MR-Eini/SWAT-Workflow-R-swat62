@@ -28,19 +28,12 @@
 ## Loading settings and functions
 source('settings.R')
 source('functions.R')
+source('../swat62.R')
 
-## Loading (or installing and loading) CRAN packages
-for(pkg in c("remotes", "RNetCDF", "tidyverse", "mapview", "sf", "gstat", 
-             "rstudioapi")){
-  install_and_load_cran(pkg)
-} 
-
-## Loading (or installing and loading) GitHub packages
-for(pkg2 in c("biopsichas/SWATtunR", "biopsichas/SWATprepR", 
-              "chrisschuerz/SWATfarmR", "biopsichas/SWATdoctR", 
-              "chrisschuerz/SWATmeasR", "chrisschuerz/SWATreadR")){
-  install_and_load_github(basename(pkg2), pkg2)
-}
+## Load the tested package set. Install it first with package-updates/install-local.R.
+swat62_require()
+invisible(lapply(c(names(swat62_versions),'DBI','RSQLite','dplyr','purrr','readr','sf','stringr','tibble','tidyr','whitebox','rstudioapi'),
+                 library, character.only = TRUE))
 
 ## 2. Construct the path to the bin folder
 # We go UP from '1_Setup' to 'Mini_setup_CREATE', then UP to 'Workshop_bundle', then DOWN into 'bin'
@@ -52,7 +45,7 @@ wbt_path <- normalizePath(wbt_path, mustWork = FALSE)
 ## 3. Initialize and Verify
 message("Searching for Whitebox at: ", wbt_path)
 
-if (file.exists(wbt_path)) {
+if (file.exists(wbt_path) && file.info(wbt_path)$size >= 1024) {
   whitebox::wbt_init(exe_path = wbt_path)
   message("WhiteboxTools successfully initialized from portable bin.")
 } else {
@@ -176,7 +169,7 @@ add_weather(db_path, met, wgn)
 db <- dbConnect(RSQLite::SQLite(), db_path)
 project_config <- dbReadTable(db, 'project_config')
 project_config$input_files_dir <- "."
-dbWriteTable(db, 'project_config', project_config, overwrite = TRUE)
+dbExecute(db, "UPDATE project_config SET input_files_dir = '.'")
 dbDisconnect(db)
 
 ## After this step, the model setup .sqlite database is fully prepared. If you 
@@ -218,9 +211,14 @@ print(paste0("land_connections_as_lines.shp is prepared in ", dir_path,
 ## https://biopsichas.github.io/SWATprepR/articles/deposition.html
 
 ## Downloading atmospheric deposition data
-df <- get_atmo_dep(paste0(dir_path, "/data/vector/basin.shp"), 
-                   start_year = st_year,
-                   end_year = end_year)
+atmo_file <- file.path(data_path, 'for_prepr', 'atmo_dep.csv')
+if (file.exists(atmo_file)) {
+  df <- readr::read_csv(atmo_file, show_col_types = FALSE)
+  df$DATE <- as.Date(df$DATE)
+} else {
+  df <- get_atmo_dep(paste0(dir_path, "/data/vector/basin.shp"),
+                     start_year = st_year, end_year = end_year)
+}
 
 # ##You can plot downloaded results with this code
 # ggplot(pivot_longer(df, !DATE, names_to = "par", values_to = "values"), aes(x = DATE, y = values))+ 
@@ -337,37 +335,29 @@ if(!file.exists(paste0(dir_path, '/hru-data.hru.bkp0'))) {
   copy_file_version(dir_path, 'hru-data.hru', file_version = 0)
 }
 
-hru_data <- SWATtunR::read_tbl(paste0(dir_path, "/hru-data.hru.bkp0"))
-hru_data$soil_plant_init <- "soilplant1"
-hru_data_fmt <- c('%8s', '%-14s', rep('%18s', 8))
-SWATreadR:::write_tbl(hru_data, paste0(dir_path, '/hru-data.hru'), fmt = hru_data_fmt)
+hru_data <- SWATreadR::read_swat(file.path(dir_path, 'hru-data.hru'))
+if (!'soil_plant_init' %in% names(hru_data)) stop('hru-data.hru has no soil_plant_init field.')
+hru_data$soil_plant_init <- 'soilplant1'
+SWATreadR::write_swat(hru_data, file.path(dir_path, 'hru-data.hru'), overwrite = TRUE)
 
 ## >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 ## 14) Updating time.sim -----
 ## >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-## Reading time.sim
-f_write <- paste0(dir_path, "/", "time.sim")
-time_sim <- read.delim(f_write)
-
-## Updating with values provided in settings
-y <- as.numeric(unlist(strsplit(time_sim[2,1], "\\s+"))[-1])
-if(min(y[y>0]) != st_year){
-  time_sim[2,1] <- gsub(min(y[y>0]), st_year, time_sim[2,1])
-}
-if(max(y[y>0]) != end_year){
-  time_sim[2,1] <- gsub(max(y[y>0]), end_year, time_sim[2,1])
-}
-
-##Writing out updated time.sim file
-update_file(time_sim, f_write)
+## Update dates by header name, retaining any fields added by newer revisions.
+f_write <- file.path(dir_path, 'time.sim')
+time_sim <- readLines(f_write)
+time_sim <- SWATreadR::swat_control_set(
+  time_sim, c(yrc_start = st_year, yrc_end = end_year))
+writeLines(time_sim, f_write)
 
 ## >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 ## 15) Running SWAT+ model setup -----
 ## >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 ##Copy swat.exe into txtinout directory and run it
-exe_copy_run(file.path("..", "..", "bin"), dir_path, swat_exe)
+swat62_migrate_inputs(dir_path)
+swat_run_checked(dir_path, swat62_executable())
 
 ## >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 ## 16) Running SWATfamR'er to prepare management files -----
@@ -420,23 +410,39 @@ if(!file.exists(paste0(dir_path, '/reservoir.con.bkp0'))) copy_file_version(dir_
 if(!file.exists(paste0(dir_path, '/reservoir.res.bkp0'))) copy_file_version(dir_path, 'reservoir.res', file_version = 0)
 if(!file.exists(paste0(dir_path, '/hydrology.res.bkp0'))) copy_file_version(dir_path, 'hydrology.res', file_version = 0)
 
-reservoir_con <- readLines(paste0(dir_path, "/reservoir.con.bkp0"))
-reservoir_res <- readLines(paste0(dir_path, "/reservoir.res.bkp0"))
-hydrology_res <- readLines(paste0(dir_path, "/hydrology.res.bkp0"))
-
-for(i in c(3:length(reservoir_con))){
-  if(substr(reservoir_con[i], start = 160, stop = 160) == "0" | grepl("aqu       1             rhg", reservoir_con[i], fixed = TRUE)){
-    reservoir_con[i] <- paste0(substr(reservoir_con[i], start = 1, stop = 159), "1           aqu         1           rhg       1.00000  ")
-    reservoir_res[i] <- paste0(substr(reservoir_res[i], start = 1, stop = 67), "         null           sedres1           nutres1  ")
-    hydrology_res[i] <- paste0(substr(hydrology_res[i], start = 1, stop = 101), "10000       0.80000       0.00000       0.00000  ")
-  } else {
-    hydrology_res[i] <- paste0(substr(hydrology_res[i], start = 1, stop = 101), "00000       0.80000       0.00000       0.00000  ")
-  }
+## Restore the original tables, then update named fields rather than fixed columns.
+for (file in c('reservoir.con', 'reservoir.res', 'hydrology.res')) {
+  stopifnot(file.copy(file.path(dir_path, paste0(file, '.bkp0')),
+                      file.path(dir_path, file), overwrite = TRUE))
 }
-
-writeLines(reservoir_con, paste0(dir_path, "/", "reservoir.con"))
-writeLines(reservoir_res, paste0(dir_path, "/", "reservoir.res"))
-writeLines(hydrology_res, paste0(dir_path, "/", "hydrology.res"))
+reservoir_con <- SWATreadR::read_swat(file.path(dir_path, 'reservoir.con'))
+reservoir_res <- SWATreadR::read_swat(file.path(dir_path, 'reservoir.res'))
+hydrology_res <- SWATreadR::read_swat(file.path(dir_path, 'hydrology.res'))
+required_con <- c('out_tot', 'obj_typ_1', 'obj_id_1', 'hyd_typ_1', 'frac_1')
+if (!all(required_con %in% names(reservoir_con))) {
+  stop('reservoir.con does not contain the expected connection fields.')
+}
+res_idx <- match(reservoir_con$obj_id, reservoir_res$id)
+hyd_idx <- match(reservoir_res$hyd[res_idx], hydrology_res$name)
+if (anyNA(res_idx) || anyNA(hyd_idx)) stop('Reservoir tables cannot be matched by id and hydrology name.')
+unconnected <- reservoir_con$out_tot == 0L |
+  (reservoir_con$obj_typ_1 == 'aqu' & reservoir_con$obj_id_1 == 1L &
+     reservoir_con$hyd_typ_1 == 'rhg')
+reservoir_con$out_tot[unconnected] <- 1L
+reservoir_con$obj_typ_1[unconnected] <- 'aqu'
+reservoir_con$obj_id_1[unconnected] <- 1L
+reservoir_con$hyd_typ_1[unconnected] <- 'rhg'
+reservoir_con$frac_1[unconnected] <- 1
+reservoir_res$rel[res_idx[unconnected]] <- 'null'
+reservoir_res$sed[res_idx[unconnected]] <- 'sedres1'
+reservoir_res$nut[res_idx[unconnected]] <- 'nutres1'
+hydrology_res$k[hyd_idx] <- ifelse(unconnected, 0.1, 0)
+hydrology_res$evap_co[hyd_idx] <- 0.8
+hydrology_res$shp_co1[hyd_idx] <- 0
+hydrology_res$shp_co2[hyd_idx] <- 0
+SWATreadR::write_swat(reservoir_con, file.path(dir_path, 'reservoir.con'), overwrite = TRUE)
+SWATreadR::write_swat(reservoir_res, file.path(dir_path, 'reservoir.res'), overwrite = TRUE)
+SWATreadR::write_swat(hydrology_res, file.path(dir_path, 'hydrology.res'), overwrite = TRUE)
 
 ## >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 ## 18) Updating any other files (if needed) -----
@@ -458,7 +464,8 @@ writeLines(hydrology_res, paste0(dir_path, "/", "hydrology.res"))
 ## >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 ## Copy swat.exe into txtinout directory and run it
-exe_copy_run(file.path("..", "..", "bin"), dir_path, swat_exe)
+swat62_migrate_inputs(dir_path)
+swat_run_checked(dir_path, swat62_executable())
 
 ## >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 ## 20) Extracting SWAT input files and overwriting with a set of files -----
@@ -492,9 +499,7 @@ file.copy(from = cal_file,
           to = paste0(clean_path, "/calibration.cal"), overwrite = TRUE)
 
 ## Updating file.cio file
-file_cio <- readLines(paste0(clean_path, "/", "file.cio"))
-if(!grepl("calibration.cal", file_cio[22], fixed = TRUE)){
-  file_cio[22] <- "chg               cal_parms.cal     calibration.cal   null              null              null              null              null              null              null              "
-  writeLines(file_cio, paste0(clean_path, "/", "file.cio"))
-}
-
+file_cio_path <- file.path(clean_path, 'file.cio')
+file_cio <- SWATreadR::swat_cio_set(readLines(file_cio_path), 'chg', 2L,
+                                    'calibration.cal')
+writeLines(file_cio, file_cio_path)

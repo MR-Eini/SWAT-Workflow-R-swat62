@@ -2,6 +2,8 @@
 #remotes::install_github("chrisschuerz/SWATfarmR")
 #remotes::install_git('https://git.ufz.de/schuerz/SWATmeasR', ref='fix_prepare_management')
 
+source('../../swat62.R')
+swat62_require(c('SWATmeasR', 'SWATfarmR'))
 library(SWATmeasR)
 
 # Project and NSWRM paths -------------------------------------------------

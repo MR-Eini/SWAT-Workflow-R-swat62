@@ -19,20 +19,16 @@ update_file <- function(txt_file, f_path){
 #' @param path_to character path to which file should be put
 #' @param file_name character names of file to copy and run
 
-exe_copy_run <- function(path_from, path_to, file_name){
-  # Copy into the destination directory
-  file.copy(from = paste0(path_from, "/", file_name), 
-            to = paste0(path_to, "/", file_name), overwrite = TRUE)
-  
-  ##Reset working directory to setup location
-  wd_base <- getwd()
-  if (str_sub(getwd(), -nchar(path_to), -1) != path_to) setwd(path_to)
-  
-  ##Write files
-  system(file_name)
-  
-  ##Reset back working directory
-  setwd(wd_base)
+exe_copy_run <- function(path_from, path_to, file_name) {
+  source <- normalizePath(file.path(path_from, file_name), mustWork = TRUE)
+  swat_check_binary(source)
+  destination <- normalizePath(path_to, mustWork = TRUE)
+  stopifnot(file.copy(source, destination, overwrite = TRUE))
+  old <- setwd(destination)
+  on.exit(setwd(old))
+  status <- system2(file.path(destination, file_name))
+  if (status != 0L) stop(file_name, ' failed with exit status ', status)
+  invisible(status)
 }
 
 # Helper: install and load from CRAN

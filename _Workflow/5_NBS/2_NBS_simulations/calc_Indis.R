@@ -85,6 +85,8 @@ is.integer0 <- function(x){
 
 `%nin%` = Negate(`%in%`)
 
+channel_name <- function(channel) if (is.numeric(channel)) paste0("cha", channel) else as.character(channel)
+
 set2wd <- function(x) setwd(x)
 
 # Read table function
@@ -183,10 +185,10 @@ ind_cha_aa <- function(path, channel, ensemble=F){
         mutate(total_N = no3_out + orgn_out + nh3_out + no2_out) %>% 
         mutate(total_P = solp_out + sedp_out)
       
-      Q_mean <- round(df_selected$flo_out[which(df_selected$name==channel)],3)
-      Nload <- round(df_selected$total_N[which(df_selected$name==channel)],3)
-      Pload <- round(df_selected$total_P[which(df_selected$name==channel)],3)
-      Sedload <- round(df_selected$sed_out[which(df_selected$name==channel)],3)
+      Q_mean <- round(df_selected$flo_out[which(df_selected$name== channel_name(channel))],3)
+      Nload <- round(df_selected$total_N[which(df_selected$name== channel_name(channel))],3)
+      Pload <- round(df_selected$total_P[which(df_selected$name== channel_name(channel))],3)
+      Sedload <- round(df_selected$sed_out[which(df_selected$name== channel_name(channel))],3)
       
       df_out[i,2:5] <- c(Q_mean, Nload, Pload, Sedload)
     }
@@ -231,10 +233,10 @@ ind_cha_aa <- function(path, channel, ensemble=F){
           mutate(total_N = no3_out + orgn_out + nh3_out + no2_out) %>% 
           mutate(total_P = solp_out + sedp_out)
         
-        Q_mean <- round(df_selected$flo_out[which(df_selected$name==channel)],3)
-        Nload <- round(df_selected$total_N[which(df_selected$name==channel)],3)
-        Pload <- round(df_selected$total_P[which(df_selected$name==channel)],3)
-        Sedload <- round(df_selected$sed_out[which(df_selected$name==channel)],3)
+        Q_mean <- round(df_selected$flo_out[which(df_selected$name== channel_name(channel))],3)
+        Nload <- round(df_selected$total_N[which(df_selected$name== channel_name(channel))],3)
+        Pload <- round(df_selected$total_P[which(df_selected$name== channel_name(channel))],3)
+        Sedload <- round(df_selected$sed_out[which(df_selected$name== channel_name(channel))],3)
         
         df_out2[k,1:4] <- c(Q_mean, Nload, Pload, Sedload)
       }
@@ -319,12 +321,12 @@ ind_cha_dayI <- function(path,
             extreme_streamflow_ratio_aa = max_discharge_aa / min_discharge_aa
           )
         
-        df_out[i,2] <- round(max_min_ratio$max_discharge[which(max_min_ratio$name==channel)],3)
-        df_out[i,3] <- round(max_min_ratio_aa$max_discharge_aa[which(max_min_ratio_aa$name==channel)],3)
-        df_out[i,9] <- round(max_min_ratio$min_discharge[which(max_min_ratio$name==channel)],3)
-        df_out[i,10] <- round(max_min_ratio_aa$min_discharge_aa[which(max_min_ratio_aa$name==channel)],3)
-        df_out[i,11] <- round(max_min_ratio$extreme_streamflow_ratio[which(max_min_ratio$name==channel)],3)
-        df_out[i,12] <- round(max_min_ratio_aa$extreme_streamflow_ratio_aa[which(max_min_ratio_aa$name==channel)],3)
+        df_out[i,2] <- round(max_min_ratio$max_discharge[which(max_min_ratio$name== channel_name(channel))],3)
+        df_out[i,3] <- round(max_min_ratio_aa$max_discharge_aa[which(max_min_ratio_aa$name== channel_name(channel))],3)
+        df_out[i,9] <- round(max_min_ratio$min_discharge[which(max_min_ratio$name== channel_name(channel))],3)
+        df_out[i,10] <- round(max_min_ratio_aa$min_discharge_aa[which(max_min_ratio_aa$name== channel_name(channel))],3)
+        df_out[i,11] <- round(max_min_ratio$extreme_streamflow_ratio[which(max_min_ratio$name== channel_name(channel))],3)
+        df_out[i,12] <- round(max_min_ratio_aa$extreme_streamflow_ratio_aa[which(max_min_ratio_aa$name== channel_name(channel))],3)
       }
       if('Q_p50' %in% ind | 'all' %in% ind){
         # Specify the columns you want to keep
@@ -344,7 +346,7 @@ ind_cha_dayI <- function(path,
             p50_discharge = quantile(flo_out, probs = 0.50, na.rm = TRUE)
           )
         
-        df_out[i,6] <- round(as.numeric(p50$p50_discharge[which(p50$name==channel)]),3)
+        df_out[i,6] <- round(as.numeric(p50$p50_discharge[which(p50$name== channel_name(channel))]),3)
       }
       if('Q_p95p05' %in% ind | 'Q_p95' %in% ind | 'Q_p05' %in% ind | 'all' %in% ind){
         # Specify the columns you want to keep
@@ -363,8 +365,8 @@ ind_cha_dayI <- function(path,
             p05_discharge = quantile(flo_out, probs = 0.05, na.rm = TRUE),
             p95_discharge = quantile(flo_out, probs = 0.95, na.rm = TRUE)
           )
-        df_out[i,4] <- round(as.numeric(Q_p95p05$p95_discharge[which(Q_p95p05$name==channel)]),3)
-        df_out[i,8] <- round(as.numeric(Q_p95p05$p05_discharge[which(Q_p95p05$name==channel)]),3)
+        df_out[i,4] <- round(as.numeric(Q_p95p05$p95_discharge[which(Q_p95p05$name== channel_name(channel))]),3)
+        df_out[i,8] <- round(as.numeric(Q_p95p05$p05_discharge[which(Q_p95p05$name== channel_name(channel))]),3)
       }
       if('Q_p90p10' %in% ind | 'Q_p90' %in% ind | 'Q_p10' %in% ind | 'all' %in% ind){
         # Specify the columns you want to keep
@@ -383,8 +385,8 @@ ind_cha_dayI <- function(path,
             p10_discharge = quantile(flo_out, probs = 0.10, na.rm = TRUE),
             p90_discharge = quantile(flo_out, probs = 0.90, na.rm = TRUE),
           )
-        df_out[i,5] <- round(as.numeric(Q_p90p10$p90_discharge[which(Q_p90p10$name==channel)]),3)
-        df_out[i,5] <- round(as.numeric(Q_p90p10$p10_discharge[which(Q_p90p10$name==channel)]),3)
+        df_out[i,5] <- round(as.numeric(Q_p90p10$p90_discharge[which(Q_p90p10$name== channel_name(channel))]),3)
+        df_out[i,5] <- round(as.numeric(Q_p90p10$p10_discharge[which(Q_p90p10$name== channel_name(channel))]),3)
       }
       if('Q_low_days' %in% ind | 'Q_high_days' %in% ind | 'Nconc_days' %in% ind | 'Pconc_days' %in% ind | 'Sedconc_days' %in% ind | 'all' %in% ind){
         # Specify the columns you want to keep
@@ -413,11 +415,11 @@ ind_cha_dayI <- function(path,
             freq_beyond_threshold_P = mean(P_conc_mgl > threshold_P, na.rm = TRUE),
             freq_beyond_threshold_Sed = mean(sed_conc_mgl > threshold_Sed, na.rm = TRUE)
           )
-        df_out[i,15] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_N[which(frequency_summary_mean$name==channel)]),3)
-        df_out[i,16] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_P[which(frequency_summary_mean$name==channel)]),3)
-        df_out[i,17] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_Sed[which(frequency_summary_mean$name==channel)]),3)
-        df_out[i,13] <- round(as.numeric(frequency_summary_mean$freq_below_threshold_lowQ[which(frequency_summary_mean$name==channel)]),3)
-        df_out[i,14] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_highQ[which(frequency_summary_mean$name==channel)]),3)
+        df_out[i,15] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_N[which(frequency_summary_mean$name== channel_name(channel))]),3)
+        df_out[i,16] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_P[which(frequency_summary_mean$name== channel_name(channel))]),3)
+        df_out[i,17] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_Sed[which(frequency_summary_mean$name== channel_name(channel))]),3)
+        df_out[i,13] <- round(as.numeric(frequency_summary_mean$freq_below_threshold_lowQ[which(frequency_summary_mean$name== channel_name(channel))]),3)
+        df_out[i,14] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_highQ[which(frequency_summary_mean$name== channel_name(channel))]),3)
       }
     }
     
@@ -527,12 +529,12 @@ ind_cha_dayI <- function(path,
               extreme_streamflow_ratio_aa = max_discharge_aa / min_discharge_aa
             )
           
-          df_out2[k,1] <- round(max_min_ratio$max_discharge[which(max_min_ratio$name==channel)],3)
-          df_out2[k,2] <- round(max_min_ratio_aa$max_discharge_aa[which(max_min_ratio_aa$name==channel)],3)
-          df_out2[k,8] <- round(max_min_ratio$min_discharge[which(max_min_ratio$name==channel)],3)
-          df_out2[k,9] <- round(max_min_ratio_aa$min_discharge_aa[which(max_min_ratio_aa$name==channel)],3)
-          df_out2[k,10] <- round(max_min_ratio$extreme_streamflow_ratio[which(max_min_ratio$name==channel)],3)
-          df_out2[k,11] <- round(max_min_ratio_aa$extreme_streamflow_ratio_aa[which(max_min_ratio_aa$name==channel)],3)
+          df_out2[k,1] <- round(max_min_ratio$max_discharge[which(max_min_ratio$name== channel_name(channel))],3)
+          df_out2[k,2] <- round(max_min_ratio_aa$max_discharge_aa[which(max_min_ratio_aa$name== channel_name(channel))],3)
+          df_out2[k,8] <- round(max_min_ratio$min_discharge[which(max_min_ratio$name== channel_name(channel))],3)
+          df_out2[k,9] <- round(max_min_ratio_aa$min_discharge_aa[which(max_min_ratio_aa$name== channel_name(channel))],3)
+          df_out2[k,10] <- round(max_min_ratio$extreme_streamflow_ratio[which(max_min_ratio$name== channel_name(channel))],3)
+          df_out2[k,11] <- round(max_min_ratio_aa$extreme_streamflow_ratio_aa[which(max_min_ratio_aa$name== channel_name(channel))],3)
         }
         if('Q_p50' %in% ind | 'all' %in% ind){
           
@@ -549,7 +551,7 @@ ind_cha_dayI <- function(path,
               p50_discharge = quantile(flo, probs = 0.50, na.rm = TRUE)
             )
           
-          df_out2[k,5] <- round(as.numeric(p50$p50_discharge[which(p50$name==channel)]),3)
+          df_out2[k,5] <- round(as.numeric(p50$p50_discharge[which(p50$name== channel_name(channel))]),3)
         }
         if('Q_p95p05' %in% ind | 'Q_p95' %in% ind | 'Q_p05' %in% ind | 'all' %in% ind){
           
@@ -566,8 +568,8 @@ ind_cha_dayI <- function(path,
               p05_discharge = quantile(flo, probs = 0.05, na.rm = TRUE),
               p95_discharge = quantile(flo, probs = 0.95, na.rm = TRUE),
             )
-          df_out2[k,3] <- round(as.numeric(Q_p95p05$p95_discharge[which(Q_p95p05$name==channel)]),3)
-          df_out2[k,7] <- round(as.numeric(Q_p95p05$p05_discharge[which(Q_p95p05$name==channel)]),3)
+          df_out2[k,3] <- round(as.numeric(Q_p95p05$p95_discharge[which(Q_p95p05$name== channel_name(channel))]),3)
+          df_out2[k,7] <- round(as.numeric(Q_p95p05$p05_discharge[which(Q_p95p05$name== channel_name(channel))]),3)
         }
         if('Q_p90p10' %in% ind | 'Q_p90' %in% ind | 'Q_p10' %in% ind | 'all' %in% ind){
           
@@ -584,8 +586,8 @@ ind_cha_dayI <- function(path,
               p10_discharge = quantile(flo, probs = 0.10, na.rm = TRUE),
               p90_discharge = quantile(flo, probs = 0.90, na.rm = TRUE),
             )
-          df_out2[k,4] <- round(as.numeric(Q_p90p10$p90_discharge[which(Q_p90p10$name==channel)]),3)
-          df_out2[k,6] <- round(as.numeric(Q_p90p10$p10_discharge[which(Q_p90p10$name==channel)]),3)
+          df_out2[k,4] <- round(as.numeric(Q_p90p10$p90_discharge[which(Q_p90p10$name== channel_name(channel))]),3)
+          df_out2[k,6] <- round(as.numeric(Q_p90p10$p10_discharge[which(Q_p90p10$name== channel_name(channel))]),3)
         }
         if('Q_low_days' %in% ind | 'Q_high_days' %in% ind | 'Nconc_days' %in% ind | 'Pconc_days' %in% ind | 'Sedconc_days' %in% ind | 'all' %in% ind){
           
@@ -613,11 +615,11 @@ ind_cha_dayI <- function(path,
               freq_beyond_threshold_P = mean(P_conc_mgl > threshold_P, na.rm = TRUE),
               freq_beyond_threshold_Sed = mean(sed_conc_mgl > threshold_Sed, na.rm = TRUE)
             )
-          df_out2[k,14] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_N[which(frequency_summary_mean$name==channel)]),3)
-          df_out2[k,15] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_P[which(frequency_summary_mean$name==channel)]),3)
-          df_out2[k,16] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_Sed[which(frequency_summary_mean$name==channel)]),3)
-          df_out2[k,12] <- round(as.numeric(frequency_summary_mean$freq_below_threshold_lowQ[which(frequency_summary_mean$name==channel)]),3)
-          df_out2[k,13] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_highQ[which(frequency_summary_mean$name==channel)]),3)
+          df_out2[k,14] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_N[which(frequency_summary_mean$name== channel_name(channel))]),3)
+          df_out2[k,15] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_P[which(frequency_summary_mean$name== channel_name(channel))]),3)
+          df_out2[k,16] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_Sed[which(frequency_summary_mean$name== channel_name(channel))]),3)
+          df_out2[k,12] <- round(as.numeric(frequency_summary_mean$freq_below_threshold_lowQ[which(frequency_summary_mean$name== channel_name(channel))]),3)
+          df_out2[k,13] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_highQ[which(frequency_summary_mean$name== channel_name(channel))]),3)
         }
       }
       
@@ -701,12 +703,12 @@ ind_cha_dayII <- function(path,
             extreme_streamflow_ratio_aa = max_discharge_aa / min_discharge_aa
           )
         
-        df_out[i,2] <- round(max_min_ratio$max_discharge[which(max_min_ratio$name==channel)],3)
-        df_out[i,3] <- round(max_min_ratio_aa$max_discharge_aa[which(max_min_ratio_aa$name==channel)],3)
-        df_out[i,9] <- round(max_min_ratio$min_discharge[which(max_min_ratio$name==channel)],3)
-        df_out[i,10] <- round(max_min_ratio_aa$min_discharge_aa[which(max_min_ratio_aa$name==channel)],3)
-        df_out[i,11] <- round(max_min_ratio$extreme_streamflow_ratio[which(max_min_ratio$name==channel)],3)
-        df_out[i,12] <- round(max_min_ratio_aa$extreme_streamflow_ratio_aa[which(max_min_ratio_aa$name==channel)],3)
+        df_out[i,2] <- round(max_min_ratio$max_discharge[which(max_min_ratio$name== channel_name(channel))],3)
+        df_out[i,3] <- round(max_min_ratio_aa$max_discharge_aa[which(max_min_ratio_aa$name== channel_name(channel))],3)
+        df_out[i,9] <- round(max_min_ratio$min_discharge[which(max_min_ratio$name== channel_name(channel))],3)
+        df_out[i,10] <- round(max_min_ratio_aa$min_discharge_aa[which(max_min_ratio_aa$name== channel_name(channel))],3)
+        df_out[i,11] <- round(max_min_ratio$extreme_streamflow_ratio[which(max_min_ratio$name== channel_name(channel))],3)
+        df_out[i,12] <- round(max_min_ratio_aa$extreme_streamflow_ratio_aa[which(max_min_ratio_aa$name== channel_name(channel))],3)
       }
       if('Q_p50' %in% ind | 'all' %in% ind){
         
@@ -723,7 +725,7 @@ ind_cha_dayII <- function(path,
             p50_discharge = quantile(flo, probs = 0.50, na.rm = TRUE)
           )
         
-        df_out[i,6] <- round(as.numeric(p50$p50_discharge[which(p50$name==channel)]),3)
+        df_out[i,6] <- round(as.numeric(p50$p50_discharge[which(p50$name== channel_name(channel))]),3)
       }
       if('Q_p95p05' %in% ind | 'Q_p95' %in% ind | 'Q_p05' %in% ind | 'all' %in% ind){
         
@@ -740,8 +742,8 @@ ind_cha_dayII <- function(path,
             p05_discharge = quantile(flo, probs = 0.05, na.rm = TRUE),
             p95_discharge = quantile(flo, probs = 0.95, na.rm = TRUE),
           )
-        df_out[i,4] <- round(as.numeric(Q_p95p05$p95_discharge[which(Q_p95p05$name==channel)]),3)
-        df_out[i,8] <- round(as.numeric(Q_p95p05$p05_discharge[which(Q_p95p05$name==channel)]),3)
+        df_out[i,4] <- round(as.numeric(Q_p95p05$p95_discharge[which(Q_p95p05$name== channel_name(channel))]),3)
+        df_out[i,8] <- round(as.numeric(Q_p95p05$p05_discharge[which(Q_p95p05$name== channel_name(channel))]),3)
       }
       if('Q_p90p10' %in% ind | 'Q_p90' %in% ind | 'Q_p10' %in% ind | 'all' %in% ind){
         
@@ -758,8 +760,8 @@ ind_cha_dayII <- function(path,
             p10_discharge = quantile(flo, probs = 0.10, na.rm = TRUE),
             p90_discharge = quantile(flo, probs = 0.90, na.rm = TRUE),
           )
-        df_out[i,5] <- round(as.numeric(Q_p90p10$p90_discharge[which(Q_p90p10$name==channel)]),3)
-        df_out[i,7] <- round(as.numeric(Q_p90p10$p10_discharge[which(Q_p90p10$name==channel)]),3)
+        df_out[i,5] <- round(as.numeric(Q_p90p10$p90_discharge[which(Q_p90p10$name== channel_name(channel))]),3)
+        df_out[i,7] <- round(as.numeric(Q_p90p10$p10_discharge[which(Q_p90p10$name== channel_name(channel))]),3)
       }
       if('Q_low_days' %in% ind | 'Q_high_days' %in% ind | 'Nconc_days' %in% ind | 'Pconc_days' %in% ind | 'Sedconc_days' %in% ind | 'all' %in% ind){
         
@@ -787,11 +789,11 @@ ind_cha_dayII <- function(path,
             freq_beyond_threshold_P = mean(P_conc_mgl > threshold_P, na.rm = TRUE),
             freq_beyond_threshold_Sed = mean(sed_conc_mgl > threshold_Sed, na.rm = TRUE)
           )
-        df_out[i,15] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_N[which(frequency_summary_mean$name==channel)]),3)
-        df_out[i,16] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_P[which(frequency_summary_mean$name==channel)]),3)
-        df_out[i,17] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_Sed[which(frequency_summary_mean$name==channel)]),3)
-        df_out[i,13] <- round(as.numeric(frequency_summary_mean$freq_below_threshold_lowQ[which(frequency_summary_mean$name==channel)]),3)
-        df_out[i,14] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_highQ[which(frequency_summary_mean$name==channel)]),3)
+        df_out[i,15] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_N[which(frequency_summary_mean$name== channel_name(channel))]),3)
+        df_out[i,16] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_P[which(frequency_summary_mean$name== channel_name(channel))]),3)
+        df_out[i,17] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_Sed[which(frequency_summary_mean$name== channel_name(channel))]),3)
+        df_out[i,13] <- round(as.numeric(frequency_summary_mean$freq_below_threshold_lowQ[which(frequency_summary_mean$name== channel_name(channel))]),3)
+        df_out[i,14] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_highQ[which(frequency_summary_mean$name== channel_name(channel))]),3)
       }
     }
     
@@ -903,12 +905,12 @@ ind_cha_dayII <- function(path,
               extreme_streamflow_ratio_aa = max_discharge_aa / min_discharge_aa
             )
           
-          df_out2[k,1] <- round(max_min_ratio$max_discharge[which(max_min_ratio$name==channel)],3)
-          df_out2[k,2] <- round(max_min_ratio_aa$max_discharge_aa[which(max_min_ratio_aa$name==channel)],3)
-          df_out2[k,8] <- round(max_min_ratio$min_discharge[which(max_min_ratio$name==channel)],3)
-          df_out2[k,9] <- round(max_min_ratio_aa$min_discharge_aa[which(max_min_ratio_aa$name==channel)],3)
-          df_out2[k,10] <- round(max_min_ratio$extreme_streamflow_ratio[which(max_min_ratio$name==channel)],3)
-          df_out2[k,11] <- round(max_min_ratio_aa$extreme_streamflow_ratio_aa[which(max_min_ratio_aa$name==channel)],3)
+          df_out2[k,1] <- round(max_min_ratio$max_discharge[which(max_min_ratio$name== channel_name(channel))],3)
+          df_out2[k,2] <- round(max_min_ratio_aa$max_discharge_aa[which(max_min_ratio_aa$name== channel_name(channel))],3)
+          df_out2[k,8] <- round(max_min_ratio$min_discharge[which(max_min_ratio$name== channel_name(channel))],3)
+          df_out2[k,9] <- round(max_min_ratio_aa$min_discharge_aa[which(max_min_ratio_aa$name== channel_name(channel))],3)
+          df_out2[k,10] <- round(max_min_ratio$extreme_streamflow_ratio[which(max_min_ratio$name== channel_name(channel))],3)
+          df_out2[k,11] <- round(max_min_ratio_aa$extreme_streamflow_ratio_aa[which(max_min_ratio_aa$name== channel_name(channel))],3)
         }
         if('Q_p50' %in% ind | 'all' %in% ind){
           
@@ -925,7 +927,7 @@ ind_cha_dayII <- function(path,
               p50_discharge = quantile(flo, probs = 0.50, na.rm = TRUE)
             )
           
-          df_out2[k,5] <- round(as.numeric(p50$p50_discharge[which(p50$name==channel)]),3)
+          df_out2[k,5] <- round(as.numeric(p50$p50_discharge[which(p50$name== channel_name(channel))]),3)
         }
         if('Q_p95p05' %in% ind | 'Q_p95' %in% ind | 'Q_p05' %in% ind | 'all' %in% ind){
           
@@ -942,8 +944,8 @@ ind_cha_dayII <- function(path,
               p05_discharge = quantile(flo, probs = 0.05, na.rm = TRUE),
               p95_discharge = quantile(flo, probs = 0.95, na.rm = TRUE),
             )
-          df_out2[k,3] <- round(as.numeric(Q_p95p05$p95_discharge[which(Q_p95p05$name==channel)]),3)
-          df_out2[k,7] <- round(as.numeric(Q_p95p05$p05_discharge[which(Q_p95p05$name==channel)]),3)
+          df_out2[k,3] <- round(as.numeric(Q_p95p05$p95_discharge[which(Q_p95p05$name== channel_name(channel))]),3)
+          df_out2[k,7] <- round(as.numeric(Q_p95p05$p05_discharge[which(Q_p95p05$name== channel_name(channel))]),3)
         }
         if('Q_p90p10' %in% ind | 'Q_p90' %in% ind | 'Q_p10' %in% ind | 'all' %in% ind){
           
@@ -960,8 +962,8 @@ ind_cha_dayII <- function(path,
               p10_discharge = quantile(flo, probs = 0.10, na.rm = TRUE),
               p90_discharge = quantile(flo, probs = 0.90, na.rm = TRUE),
             )
-          df_out2[k,4] <- round(as.numeric(Q_p90p10$p90_discharge[which(Q_p90p10$name==channel)]),3)
-          df_out2[k,6] <- round(as.numeric(Q_p90p10$p10_discharge[which(Q_p90p10$name==channel)]),3)
+          df_out2[k,4] <- round(as.numeric(Q_p90p10$p90_discharge[which(Q_p90p10$name== channel_name(channel))]),3)
+          df_out2[k,6] <- round(as.numeric(Q_p90p10$p10_discharge[which(Q_p90p10$name== channel_name(channel))]),3)
         }
         if('Q_low_days' %in% ind | 'Q_high_days' %in% ind | 'Nconc_days' %in% ind | 'Pconc_days' %in% ind | 'Sedconc_days' %in% ind | 'all' %in% ind){
           
@@ -989,11 +991,11 @@ ind_cha_dayII <- function(path,
               freq_beyond_threshold_P = mean(P_conc_mgl > threshold_P, na.rm = TRUE),
               freq_beyond_threshold_Sed = mean(sed_conc_mgl > threshold_Sed, na.rm = TRUE)
             )
-          df_out2[k,14] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_N[which(frequency_summary_mean$name==channel)]),3)
-          df_out2[k,15] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_P[which(frequency_summary_mean$name==channel)]),3)
-          df_out2[k,16] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_Sed[which(frequency_summary_mean$name==channel)]),3)
-          df_out2[k,12] <- round(as.numeric(frequency_summary_mean$freq_below_threshold_lowQ[which(frequency_summary_mean$name==channel)]),3)
-          df_out2[k,13] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_highQ[which(frequency_summary_mean$name==channel)]),3)
+          df_out2[k,14] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_N[which(frequency_summary_mean$name== channel_name(channel))]),3)
+          df_out2[k,15] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_P[which(frequency_summary_mean$name== channel_name(channel))]),3)
+          df_out2[k,16] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_Sed[which(frequency_summary_mean$name== channel_name(channel))]),3)
+          df_out2[k,12] <- round(as.numeric(frequency_summary_mean$freq_below_threshold_lowQ[which(frequency_summary_mean$name== channel_name(channel))]),3)
+          df_out2[k,13] <- round(as.numeric(frequency_summary_mean$freq_beyond_threshold_highQ[which(frequency_summary_mean$name== channel_name(channel))]),3)
         }
         
       }
@@ -3022,3 +3024,15 @@ get_ens_daily2 <- function(df_daily,
   
   return(df_ens)
 }
+
+
+# Revision 62 implementation; keeps the legacy functions above for comparison.
+run_scenarios_legacy <- run_scenarios
+run_scenarios2_legacy <- run_scenarios2
+run_scenarios <- function(swat_exe = swat62_executable(), base_path = wd,
+                          scen_output = scen_out, measure.list = measr.list,
+                          outflow_reach = cha_id) {
+  swat62_run_scenarios(swat_exe, base_path, scen_output, measure.list,
+                       outflow_reach, project_path, measr_name, cal_files)
+}
+run_scenarios2 <- run_scenarios

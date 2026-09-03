@@ -267,7 +267,7 @@ build_rotation_schedules <- function(){
 
       for(l in 1:length(crop_myr)){
         if(crop_myr[l] %in% substr(rota,1,nchar(crop_myr[l]))){
-          myr_idx <- roll_count(substr(rota,1,nchar(crop_myr[l]))==crop_myr[l])
+          myr_idx <- HighFreq::roll_count(substr(rota,1,nchar(crop_myr[l]))==crop_myr[l])
           myr_max <- myr_idx
           crop_after <- rep(0,length(rota))
           j <- length(rota)

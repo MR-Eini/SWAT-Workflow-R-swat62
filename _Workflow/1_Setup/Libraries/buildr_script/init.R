@@ -34,11 +34,13 @@ install_load(DBI_1.1.3, RSQLite_2.2.15)
 ## Initialize whitebox tools which are used for several 
 ## raster data analyses
 ## Initialize whitebox tools which are used for several raster analyses
-wbt_exe <- list.files(
-  path = find.package("whitebox"),
-  pattern = "whitebox_tools\\.exe$",
-  recursive = TRUE, full.names = TRUE
-)
+wbt_exe <- if (exists('wbt_path', inherits = TRUE) && file.exists(wbt_path) &&
+               file.info(wbt_path)$size >= 1024) {
+  wbt_path
+} else {
+  list.files(path = find.package("whitebox"), pattern = "whitebox_tools\\.exe$",
+             recursive = TRUE, full.names = TRUE)
+}
 
 if (length(wbt_exe) == 0) {
   wbt_exe <- list.files(

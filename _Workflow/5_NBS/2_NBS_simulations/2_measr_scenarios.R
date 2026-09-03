@@ -1,5 +1,7 @@
 ### 1 - Load libraries and functions -------------------------------------------
 
+source('../../swat62.R')
+swat62_require()
 source('./calc_Indis.R')
 # foo1(c('dplyr' , 'readr' , 'tidyverse', 'data.table', 'remotes', 'devtools', 
 #        'xts', 'dygraphs', 'R.utils', 'foreach', 'doParallel', 'data.table', 
@@ -16,7 +18,7 @@ source('./calc_Indis.R')
 # foo3('hydroGOF')     
 
 packages <- c(
-  "dplyr", "readr", "tidyverse", "data.table", "remotes",
+  "dplyr", "readr", "data.table",
   "xts", "dygraphs", "R.utils", "foreach", "doParallel",
   "ggplot2", "fmsb", "patchwork", "SWATmeasR", "hydroGOF"
 )
@@ -28,7 +30,7 @@ library(doSNOW)
 ### 2 - Define paths and load cal files and existing measR project -------------
 measr_name <- 'demo_nbs' #define name of your SWATmeasR project!
 scen_out <- 'scenario_outputs' #define name of outputs folder
-cha_id <- 6 #define outlet channel number
+cha_id <- 5 # outlet channel in the supplied model (matches 1_Setup/settings.R)
 
 wd <- getwd()
 project_path <- paste0(wd,'/txt') #adjust if necessary
@@ -216,4 +218,3 @@ dev.off()
 # in SWAT model units.
 
 write_results_table()
-

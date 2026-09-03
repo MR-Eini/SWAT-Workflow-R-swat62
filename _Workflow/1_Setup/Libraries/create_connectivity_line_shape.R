@@ -1,5 +1,4 @@
 library(sf)
-library(tidyverse)
 library(DBI)
 library(RSQLite)
 library(stringr)

@@ -1,0 +1,8 @@
+[
+  {"scenario": "statusquo", "Q_mean": 0.002, "Nload": 133.75, "Pload": 12.231, "Sedload": 4.187},
+  {"scenario": "covcrop", "Q_mean": 0.002, "Nload": 133.72, "Pload": 12.224, "Sedload": 4.186},
+  {"scenario": "rotation", "Q_mean": 0.002, "Nload": 133.79, "Pload": 12.239, "Sedload": 4.189},
+  {"scenario": "afforestation", "Q_mean": 0.002, "Nload": 127.6, "Pload": 11.538, "Sedload": 2.533},
+  {"scenario": "pond", "Q_mean": 0.002, "Nload": 73.15, "Pload": 9.879, "Sedload": 3.446},
+  {"scenario": "all", "Q_mean": 0.002, "Nload": 73.46, "Pload": 9.923, "Sedload": 3.458}
+]
