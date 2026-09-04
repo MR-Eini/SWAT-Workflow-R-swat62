@@ -5,9 +5,9 @@ This repository preserves the supplied workflow scripts before the update and th
 | Snapshot | Browse source |
 | --- | --- |
 | Supplied workflow before the update | [before-swat62-update](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/before-swat62-update) |
-| Tested revision 62 workflow | [swat62-workflow-v2](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v2) |
+| Tested revision 62 workflow | [swat62-workflow-v3](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v3) |
 
-**[Compare the old and updated workflow on GitHub](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/before-swat62-update...swat62-workflow-v2?w=1)**. GitHub shows removed lines in red and additions in green. The link hides whitespace-only changes. [Compare v1 to v2](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/swat62-workflow-v1...swat62-workflow-v2?w=1) to review the removal of the fixed atmospheric-deposition fallback.
+**[Compare the old and updated workflow on GitHub](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/before-swat62-update...swat62-workflow-v3?w=1)**. GitHub shows removed lines in red and additions in green. The link hides whitespace-only changes. [Compare v2 to v3](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/swat62-workflow-v2...swat62-workflow-v3?w=1) to review the atmospheric-deposition control-flow correction.
 
 The repository is a source overlay. Model inputs, GIS data, observations, executable files, generated results, and bundled R libraries remain in the original workspace. The original upstream project is [biopsichas/SWAT-Workflow-R](https://github.com/biopsichas/SWAT-Workflow-R).
 

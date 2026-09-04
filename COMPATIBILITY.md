@@ -16,4 +16,6 @@ Machine-readable scenario and indicator summaries are in [`compatibility/workflo
 
 The setup execution used the supplied catchment's atmospheric-deposition data as an external test fixture. Those values are not distributed in the reusable workflow. Public users must explicitly disable deposition, provide their own validated CSV, or configure current EMEP NetCDF sources.
 
+The v3 deposition routing was tested separately for all three modes. A file-mode integration check called the real SWATprepR `add_atmo_dep()` on a temporary copy of the supplied clean setup; the Intel revision 62 executable then completed the updated model. Mocked routing checks verify that `none` never writes and that both `file` and `emep` write exactly once.
+
 This evidence covers the supplied model and its configured processes. The migration helper deliberately refuses carbon-enabled inputs because no scientifically justified carbon defaults were available. The Windows GNU revision 62 build stopped during weather initialization for this model; the Intel revision 62 build is the tested executable. Successful execution shows software compatibility, while calibration quality and scientific acceptance require a separate model assessment.

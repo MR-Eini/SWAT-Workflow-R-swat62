@@ -4,9 +4,15 @@
 | --- | --- | --- |
 | Supplied source baseline | [before-swat62-update](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/before-swat62-update) | Original R and R Markdown scripts copied from the supplied archive |
 | Initial revision 62 overlay | [swat62-workflow-v1](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v1) | Initial compatibility snapshot; superseded because it bundled model-specific deposition values |
-| Reusable revision 62 overlay | [swat62-workflow-v2](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v2) | Current setup, scenario, and indicator workflow with explicit catchment-specific deposition configuration |
+| Reusable revision 62 overlay | [swat62-workflow-v2](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v2) | First reusable setup, scenario, and indicator workflow with explicit catchment-specific deposition configuration |
+| Deposition routing correction | [swat62-workflow-v3](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v3) | Keeps data acquisition and `add_atmo_dep()` in one tested function so all three modes follow the correct path |
 
-[Open the old-to-updated comparison](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/before-swat62-update...swat62-workflow-v2?w=1) to review each changed line.
+[Open the old-to-updated comparison](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/before-swat62-update...swat62-workflow-v3?w=1) to review each changed line.
+
+## Revision 62 source overlay v3
+
+- Moves acquisition and writing into `configure_atmo_dep()` so `none` never reads or writes, while both `file` and `emep` write their selected data exactly once.
+- Adds a regression test for all three modes and for missing/invalid configuration.
 
 ## Revision 62 source overlay v2
 
