@@ -5,9 +5,9 @@ This repository preserves the supplied workflow scripts before the update and th
 | Snapshot | Browse source |
 | --- | --- |
 | Supplied workflow before the update | [before-swat62-update](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/before-swat62-update) |
-| Tested revision 62 workflow | [swat62-workflow-v3](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v3) |
+| Tested revision 62 workflow | [swat62-workflow-v4](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v4) |
 
-**[Compare the old and updated workflow on GitHub](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/before-swat62-update...swat62-workflow-v3?w=1)**. GitHub shows removed lines in red and additions in green. The link hides whitespace-only changes. [Compare v2 to v3](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/swat62-workflow-v2...swat62-workflow-v3?w=1) to review the atmospheric-deposition control-flow correction.
+**[Compare the old and updated workflow on GitHub](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/before-swat62-update...swat62-workflow-v4?w=1)**. GitHub shows removed lines in red and additions in green. The link hides whitespace-only changes. [Compare v3 to v4](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/swat62-workflow-v3...swat62-workflow-v4?w=1) to review the verified online EMEP default.
 
 The repository is a source overlay. Model inputs, GIS data, observations, executable files, generated results, and bundled R libraries remain in the original workspace. The original upstream project is [biopsichas/SWAT-Workflow-R](https://github.com/biopsichas/SWAT-Workflow-R).
 
@@ -29,7 +29,7 @@ Sys.setenv(SWAT_ATMO_DEP_MODE = "file",
            SWAT_ATMO_DEP_FILE = "C:/my-catchment/atmo_dep.csv")
 ```
 
-Alternatively, set mode `emep` and provide a current NetCDF template containing `{year}` and optionally `{timestep}`. No deposition values or reporting-cycle URL are embedded in this repository.
+Alternatively, set mode `emep`. SWATprepR 1.0.16 uses the verified official EMEP 2025 Reporting resolver for years 1990-2024. `SWAT_ATMO_DEP_NETCDF` can override it with another template containing `{year}` and optionally `{timestep}`. No deposition values are embedded in this repository.
 
 The setup and NBS entry scripts source this helper themselves. It verifies package versions and executable size, migrates the limited non-carbon input family used here, checks SWAT+ exit status and its completion message, and runs each scenario in a fresh directory.
 
@@ -42,7 +42,7 @@ The setup and NBS entry scripts source this helper themselves. It verifies packa
 | SWATtunR | 0.3.15 | [MR-Eini/SWATtunR-swat62](https://github.com/MR-Eini/SWATtunR-swat62) |
 | SWATdoctR | 0.1.29 | [MR-Eini/SWATdoctR-swat62](https://github.com/MR-Eini/SWATdoctR-swat62) |
 | SWATfarmR | 4.0.5 | [MR-Eini/SWATfarmR-swat62](https://github.com/MR-Eini/SWATfarmR-swat62) |
-| SWATprepR | 1.0.15 | [MR-Eini/SWATprepR-swat62](https://github.com/MR-Eini/SWATprepR-swat62) |
+| SWATprepR | 1.0.16 | [MR-Eini/SWATprepR-swat62](https://github.com/MR-Eini/SWATprepR-swat62) |
 | SWATmeasR | 0.9.4 | [MR-Eini/SWATmeasR-swat62](https://github.com/MR-Eini/SWATmeasR-swat62) |
 
 See [VERSION-HISTORY.md](VERSION-HISTORY.md) for the workflow changes and [COMPATIBILITY.md](COMPATIBILITY.md) for the execution evidence and limits.

@@ -6,8 +6,14 @@
 | Initial revision 62 overlay | [swat62-workflow-v1](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v1) | Initial compatibility snapshot; superseded because it bundled model-specific deposition values |
 | Reusable revision 62 overlay | [swat62-workflow-v2](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v2) | First reusable setup, scenario, and indicator workflow with explicit catchment-specific deposition configuration |
 | Deposition routing correction | [swat62-workflow-v3](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v3) | Keeps data acquisition and `add_atmo_dep()` in one tested function so all three modes follow the correct path |
+| Current online EMEP source | [swat62-workflow-v4](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v4) | Uses the verified official EMEP 2025 Reporting source automatically when users select `emep` mode |
 
-[Open the old-to-updated comparison](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/before-swat62-update...swat62-workflow-v3?w=1) to review each changed line.
+[Open the old-to-updated comparison](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/before-swat62-update...swat62-workflow-v4?w=1) to review each changed line.
+
+## Revision 62 source overlay v4
+
+- Uses SWATprepR 1.0.16 and its official EMEP 2025 Reporting resolver when `emep` mode is selected without an override.
+- Covers EMEP meteorological years 1990-2024; users can still provide another template or source list through `SWAT_ATMO_DEP_NETCDF`.
 
 ## Revision 62 source overlay v3
 
