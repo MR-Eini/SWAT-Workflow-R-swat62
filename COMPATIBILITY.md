@@ -14,7 +14,7 @@ Tests used the Windows Intel revision 62 executable `swatplus-62-ifo-win_amd64-R
 
 Machine-readable scenario and indicator summaries are in [`compatibility/workflow-summary.json`](compatibility/workflow-summary.json) and [`compatibility/indicator-summary.json`](compatibility/indicator-summary.json).
 
-The setup execution used the supplied catchment's atmospheric-deposition data as an external test fixture. Those values are not distributed in the reusable workflow. Public users must explicitly disable deposition, provide their own validated CSV, or configure current EMEP NetCDF sources.
+The setup execution used the supplied catchment's atmospheric-deposition data as an external test fixture. Those values are not distributed in the reusable workflow. Public users may use the online EMEP default, explicitly disable deposition, provide their own validated CSV, or configure another EMEP NetCDF source.
 
 The v3 deposition routing was tested separately for all three modes. A file-mode integration check called the real SWATprepR `add_atmo_dep()` on a temporary copy of the supplied clean setup; the Intel revision 62 executable then completed the updated model. Mocked routing checks verify that `none` never writes and that both `file` and `emep` write exactly once.
 

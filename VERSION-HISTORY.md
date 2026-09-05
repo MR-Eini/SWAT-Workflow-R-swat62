@@ -7,8 +7,14 @@
 | Reusable revision 62 overlay | [swat62-workflow-v2](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v2) | First reusable setup, scenario, and indicator workflow with explicit catchment-specific deposition configuration |
 | Deposition routing correction | [swat62-workflow-v3](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v3) | Keeps data acquisition and `add_atmo_dep()` in one tested function so all three modes follow the correct path |
 | Current online EMEP source | [swat62-workflow-v4](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v4) | Uses the verified official EMEP 2025 Reporting source automatically when users select `emep` mode |
+| Online EMEP default | [swat62-workflow-v5](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v5) | Selects the tested EMEP source by default while retaining `file`, `none`, and custom-source options |
 
-[Open the old-to-updated comparison](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/before-swat62-update...swat62-workflow-v4?w=1) to review each changed line.
+[Open the old-to-updated comparison](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/before-swat62-update...swat62-workflow-v5?w=1) to review each changed line.
+
+## Revision 62 source overlay v5
+
+- Makes the tested EMEP 2025 Reporting source the default atmospheric-deposition mode.
+- Retains `file` and `none` modes plus `SWAT_ATMO_DEP_NETCDF` for a custom reporting source.
 
 ## Revision 62 source overlay v4
 

@@ -5,9 +5,9 @@ This repository preserves the supplied workflow scripts before the update and th
 | Snapshot | Browse source |
 | --- | --- |
 | Supplied workflow before the update | [before-swat62-update](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/before-swat62-update) |
-| Tested revision 62 workflow | [swat62-workflow-v4](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v4) |
+| Tested revision 62 workflow | [swat62-workflow-v5](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v5) |
 
-**[Compare the old and updated workflow on GitHub](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/before-swat62-update...swat62-workflow-v4?w=1)**. GitHub shows removed lines in red and additions in green. The link hides whitespace-only changes. [Compare v3 to v4](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/swat62-workflow-v3...swat62-workflow-v4?w=1) to review the verified online EMEP default.
+**[Compare the old and updated workflow on GitHub](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/before-swat62-update...swat62-workflow-v5?w=1)**. GitHub shows removed lines in red and additions in green. The link hides whitespace-only changes. [Compare v4 to v5](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/swat62-workflow-v4...swat62-workflow-v5?w=1) to review the change to online EMEP as the default.
 
 The repository is a source overlay. Model inputs, GIS data, observations, executable files, generated results, and bundled R libraries remain in the original workspace. The original upstream project is [biopsichas/SWAT-Workflow-R](https://github.com/biopsichas/SWAT-Workflow-R).
 
@@ -22,14 +22,14 @@ source("_Workflow/swat62.R")
 swat62_require()
 ```
 
-Atmospheric deposition is disabled by default. Configure a catchment-specific file:
+Atmospheric deposition uses the verified online EMEP 2025 Reporting source by default. No environment setting is needed for model years 1990-2024. To configure a catchment-specific file instead:
 
 ```r
 Sys.setenv(SWAT_ATMO_DEP_MODE = "file",
            SWAT_ATMO_DEP_FILE = "C:/my-catchment/atmo_dep.csv")
 ```
 
-Alternatively, set mode `emep`. SWATprepR 1.0.16 uses the verified official EMEP 2025 Reporting resolver for years 1990-2024. `SWAT_ATMO_DEP_NETCDF` can override it with another template containing `{year}` and optionally `{timestep}`. No deposition values are embedded in this repository.
+To disable atmospheric deposition, set `SWAT_ATMO_DEP_MODE=none`. SWATprepR 1.0.16 uses the verified official EMEP 2025 Reporting resolver for years 1990-2024 when the variable is unset. `SWAT_ATMO_DEP_NETCDF` can override it with another template containing `{year}` and optionally `{timestep}`. No deposition values are embedded in this repository.
 
 The setup and NBS entry scripts source this helper themselves. It verifies package versions and executable size, migrates the limited non-carbon input family used here, checks SWAT+ exit status and its completion message, and runs each scenario in a fresh directory.
 
