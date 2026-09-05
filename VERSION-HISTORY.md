@@ -8,8 +8,15 @@
 | Deposition routing correction | [swat62-workflow-v3](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v3) | Keeps data acquisition and `add_atmo_dep()` in one tested function so all three modes follow the correct path |
 | Current online EMEP source | [swat62-workflow-v4](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v4) | Uses the verified official EMEP 2025 Reporting source automatically when users select `emep` mode |
 | Online EMEP default | [swat62-workflow-v5](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v5) | Selects the tested EMEP source by default while retaining `file`, `none`, and custom-source options |
+| Plant schema correction | [swat62-workflow-v6](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v6) | Expands legacy plant rows for revision 62 and rejects unresolved crop diagnostics |
 
-[Open the old-to-updated comparison](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/before-swat62-update...swat62-workflow-v5?w=1) to review each changed line.
+[Open the old-to-updated comparison](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/before-swat62-update...swat62-workflow-v6?w=1) to review each changed line.
+
+## Revision 62 source overlay v6
+
+- Migrates every legacy `plants.plt` row from 53 to 56 fields while preserving all custom and calibrated crops.
+- Checks `diagnostics.out` after each executable run and fails if SWAT+ could not resolve a plant name.
+- Uses SWATreadR 0.1.0.9014 and SWATdoctR 0.1.30.
 
 ## Revision 62 source overlay v5
 
