@@ -9,8 +9,15 @@
 | Current online EMEP source | [swat62-workflow-v4](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v4) | Uses the verified official EMEP 2025 Reporting source automatically when users select `emep` mode |
 | Online EMEP default | [swat62-workflow-v5](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v5) | Selects the tested EMEP source by default while retaining `file`, `none`, and custom-source options |
 | Plant schema correction | [swat62-workflow-v6](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v6) | Expands legacy plant rows for revision 62 and rejects unresolved crop diagnostics |
+| Portable executable and cleanup | [swat62-workflow-v7](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v7) | Stages the tested executable in `clean_setup` and removes temporary Doctor runs by default |
 
-[Open the old-to-updated comparison](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/before-swat62-update...swat62-workflow-v6?w=1) to review each changed line.
+[Open the old-to-updated comparison](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/before-swat62-update...swat62-workflow-v7?w=1) to review each changed line.
+
+## Revision 62 source overlay v7
+
+- Copies exactly one tested Intel revision 62 executable into the generated `clean_setup` for calibration, validation, verification and scenario steps.
+- Uses SWATdoctR 0.1.31, which removes temporary verification runs and the empty `.run_verify` parent on success or error unless a user explicitly keeps them for debugging.
+- Adds focused checks for executable staging and cleanup.
 
 ## Revision 62 source overlay v6
 

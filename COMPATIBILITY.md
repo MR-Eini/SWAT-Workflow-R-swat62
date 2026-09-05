@@ -4,13 +4,13 @@ Tests used the Windows Intel revision 62 executable `swatplus-62-ifo-win_amd64-R
 
 | Area | Result |
 | --- | --- |
-| Package source tests | All seven package test directories passed, 96 expectations total |
-| Setup rebuild | GIS/database/text-input stages completed; 314 HRUs scheduled; final 2004-2023 SWAT+ run completed; a 260-file `clean_setup` was produced |
+| Package source tests | All seven package test directories passed, 102 expectations total |
+| Setup rebuild | GIS/database/text-input stages completed; 314 HRUs scheduled; final 2004-2023 SWAT+ run completed; `clean_setup` contains exactly one tested revision 62 executable |
 | SWATfarmR | Status quo, cover crop, and crop rotation projects ran through revision 62 |
 | SWATprepR | Atmospheric deposition, point sources, and generated climate inputs ran through revision 62 |
 | SWATmeasR | Afforestation and pond measures ran through revision 62 |
 | NBS workflow | Status quo, cover crop, crop rotation, afforestation, pond, and combined scenarios all completed and produced indicators |
-| Calibration and verification | The supplied discharge calibration/validation, sensitivity, crop, water-yield, and SWATdoctR verification exercises produced outputs; the corrected plant schema resolves every scheduled crop |
+| Calibration and verification | The supplied discharge calibration/validation, sensitivity, crop, water-yield, and SWATdoctR verification exercises produced outputs; the corrected plant schema resolves every scheduled crop and temporary Doctor run folders are removed by default |
 
 Machine-readable scenario and indicator summaries are in [`compatibility/workflow-summary.json`](compatibility/workflow-summary.json) and [`compatibility/indicator-summary.json`](compatibility/indicator-summary.json).
 

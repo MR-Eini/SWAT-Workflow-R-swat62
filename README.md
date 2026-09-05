@@ -5,9 +5,9 @@ This repository preserves the supplied workflow scripts before the update and th
 | Snapshot | Browse source |
 | --- | --- |
 | Supplied workflow before the update | [before-swat62-update](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/before-swat62-update) |
-| Tested revision 62 workflow | [swat62-workflow-v6](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v6) |
+| Tested revision 62 workflow | [swat62-workflow-v7](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v7) |
 
-**[Compare the old and updated workflow on GitHub](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/before-swat62-update...swat62-workflow-v6?w=1)**. GitHub shows removed lines in red and additions in green. The link hides whitespace-only changes. [Compare v5 to v6](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/swat62-workflow-v5...swat62-workflow-v6?w=1) to review the plant-table correction.
+**[Compare the old and updated workflow on GitHub](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/before-swat62-update...swat62-workflow-v7?w=1)**. GitHub shows removed lines in red and additions in green. The link hides whitespace-only changes. [Compare v6 to v7](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/swat62-workflow-v6...swat62-workflow-v7?w=1) to review executable staging and Doctor run cleanup.
 
 The repository is a source overlay. Model inputs, GIS data, observations, executable files, generated results, and bundled R libraries remain in the original workspace. The original upstream project is [biopsichas/SWAT-Workflow-R](https://github.com/biopsichas/SWAT-Workflow-R).
 
@@ -31,7 +31,7 @@ Sys.setenv(SWAT_ATMO_DEP_MODE = "file",
 
 To disable atmospheric deposition, set `SWAT_ATMO_DEP_MODE=none`. SWATprepR 1.0.16 uses the verified official EMEP 2025 Reporting resolver for years 1990-2024 when the variable is unset. `SWAT_ATMO_DEP_NETCDF` can override it with another template containing `{year}` and optionally `{timestep}`. No deposition values are embedded in this repository.
 
-The setup and NBS entry scripts source this helper themselves. It verifies package versions and executable size, migrates the limited non-carbon input family used here, checks SWAT+ exit status, completion message, and unresolved plant diagnostics, and runs each scenario in a fresh directory. See [the plant-table migration report](PLANTS-SWAT62.md) for the corrected `agrc` substitution.
+The setup and NBS entry scripts source this helper themselves. It verifies package versions and executable size, migrates the limited non-carbon input family used here, checks SWAT+ exit status, completion message, and unresolved plant diagnostics, and runs each scenario in a fresh directory. Setup also places exactly one tested revision 62 executable in `clean_setup`, where calibration and scenario steps can find it. SWATdoctR removes its temporary run directories by default. See [the plant-table migration report](PLANTS-SWAT62.md) for the corrected `agrc` substitution.
 
 ## Updated packages
 
@@ -40,7 +40,7 @@ The setup and NBS entry scripts source this helper themselves. It verifies packa
 | SWATreadR | 0.1.0.9014 | [MR-Eini/SWATreadR-swat62](https://github.com/MR-Eini/SWATreadR-swat62) |
 | SWATrunR | 1.1.0.9019 | [MR-Eini/SWATrunR-swat62](https://github.com/MR-Eini/SWATrunR-swat62) |
 | SWATtunR | 0.3.15 | [MR-Eini/SWATtunR-swat62](https://github.com/MR-Eini/SWATtunR-swat62) |
-| SWATdoctR | 0.1.30 | [MR-Eini/SWATdoctR-swat62](https://github.com/MR-Eini/SWATdoctR-swat62) |
+| SWATdoctR | 0.1.31 | [MR-Eini/SWATdoctR-swat62](https://github.com/MR-Eini/SWATdoctR-swat62) |
 | SWATfarmR | 4.0.5 | [MR-Eini/SWATfarmR-swat62](https://github.com/MR-Eini/SWATfarmR-swat62) |
 | SWATprepR | 1.0.16 | [MR-Eini/SWATprepR-swat62](https://github.com/MR-Eini/SWATprepR-swat62) |
 | SWATmeasR | 0.9.4 | [MR-Eini/SWATmeasR-swat62](https://github.com/MR-Eini/SWATmeasR-swat62) |
