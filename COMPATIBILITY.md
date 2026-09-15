@@ -6,6 +6,7 @@ Tests used the Windows Intel revision 62 executable `swatplus-62-ifo-win_amd64-R
 | --- | --- |
 | Package source tests | All seven package test directories passed, 102 expectations total |
 | Setup rebuild | GIS/database/text-input stages completed; 314 HRUs scheduled; final 2004-2023 SWAT+ run completed; `clean_setup` contains exactly one tested revision 62 executable |
+| Public path hygiene | Active workflow paths are repository-relative; no developer-machine model path remains |
 | SWATfarmR | Status quo, cover crop, and crop rotation projects ran through revision 62 |
 | SWATprepR | Atmospheric deposition, point sources, and generated climate inputs ran through revision 62 |
 | SWATmeasR | Afforestation and pond measures ran through revision 62 |

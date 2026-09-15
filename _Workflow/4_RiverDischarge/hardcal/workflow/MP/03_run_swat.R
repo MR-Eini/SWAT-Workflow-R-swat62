@@ -11,7 +11,7 @@ source('./workflow/02_define_output.R')
 
 # Parameter definition ----------------------------------------------------
 # Path to the SWAT+ project folder.
-model_path <- 'A:/Users/Eini/CS6/5_runoff/clean_setup'
+model_path <- '../../1_Setup/Temp/clean_setup'
 
 # Start date of simulation period
 start_date <- '2004-01-01'
@@ -47,4 +47,3 @@ run_swatplus(project_path     = model_path,
              split_units      = FALSE, # better set TRUE for large number of units
              time_out         = 3600 # seconds, change if run-time differs
              )
-

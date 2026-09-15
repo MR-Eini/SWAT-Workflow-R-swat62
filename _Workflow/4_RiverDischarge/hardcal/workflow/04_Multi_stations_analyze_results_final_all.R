@@ -133,8 +133,8 @@ stopifnot(length(sim_dirs) > 0)
 sim_path <- file.path("./simulation", sim_dirs[length(sim_dirs)])
 sim <- SWATrunR::load_swat_run(sim_path)
 
-# sim_01112025_MP <- readRDS("A:/Users/Eini/CS6/5_Runoff/sim_01112025_MP.rds")
-# sim <- sim_01112025_MP
+# sim_previous <- readRDS("simulation/previous_run.rds")
+# sim <- sim_previous
 
 # Parameters table
 #par_vals <- sim$parameter$values |> mutate(run = sprintf("run_%04d", row_number()))
@@ -331,4 +331,3 @@ if (interactive()){
     ggplot2::labs(x = "Parameter value", y = "KGE", colour = "Gauge") +
     ggplot2::theme_bw()
 }
-

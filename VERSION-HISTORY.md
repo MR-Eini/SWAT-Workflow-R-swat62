@@ -10,8 +10,14 @@
 | Online EMEP default | [swat62-workflow-v5](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v5) | Selects the tested EMEP source by default while retaining `file`, `none`, and custom-source options |
 | Plant schema correction | [swat62-workflow-v6](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v6) | Expands legacy plant rows for revision 62 and rejects unresolved crop diagnostics |
 | Portable executable and cleanup | [swat62-workflow-v7](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v7) | Stages the tested executable in `clean_setup` and removes temporary Doctor runs by default |
+| Public path cleanup | [swat62-workflow-v8](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v8) | Replaces a machine-specific calibration path with the shared generated `clean_setup` path |
 
-[Open the old-to-updated comparison](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/before-swat62-update...swat62-workflow-v7?w=1) to review each changed line.
+[Open the old-to-updated comparison](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/before-swat62-update...swat62-workflow-v8?w=1) to review each changed line.
+
+## Revision 62 source overlay v8
+
+- Uses `../../1_Setup/Temp/clean_setup` in the multiprocessing discharge runner instead of a developer-machine path.
+- Replaces the machine-specific commented RDS example with a repository-relative example.
 
 ## Revision 62 source overlay v7
 

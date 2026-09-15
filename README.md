@@ -5,9 +5,9 @@ This repository preserves the supplied workflow scripts before the update and th
 | Snapshot | Browse source |
 | --- | --- |
 | Supplied workflow before the update | [before-swat62-update](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/before-swat62-update) |
-| Tested revision 62 workflow | [swat62-workflow-v7](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v7) |
+| Tested revision 62 workflow | [swat62-workflow-v8](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v8) |
 
-**[Compare the old and updated workflow on GitHub](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/before-swat62-update...swat62-workflow-v7?w=1)**. GitHub shows removed lines in red and additions in green. The link hides whitespace-only changes. [Compare v6 to v7](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/swat62-workflow-v6...swat62-workflow-v7?w=1) to review executable staging and Doctor run cleanup.
+**[Compare the old and updated workflow on GitHub](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/before-swat62-update...swat62-workflow-v8?w=1)**. GitHub shows removed lines in red and additions in green. The link hides whitespace-only changes. [Compare v7 to v8](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/swat62-workflow-v7...swat62-workflow-v8?w=1) to review the public path cleanup.
 
 The repository is a source overlay. Model inputs, GIS data, observations, executable files, generated results, and bundled R libraries remain in the original workspace. The original upstream project is [biopsichas/SWAT-Workflow-R](https://github.com/biopsichas/SWAT-Workflow-R).
 
