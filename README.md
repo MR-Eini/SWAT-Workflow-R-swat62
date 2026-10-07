@@ -1,3 +1,21 @@
+## Large-output update, 7 October 2026
+
+SWATreadR 0.1.0.9015 reads standard and management outputs in bounded chunks.
+Files above 256 MiB use two passes and allocate the returned table once.
+SWATdoctR 0.1.32 adds `read_swat_verification()` to read retained outputs without
+executing SWAT+ again. SWATrunR 1.1.0.9020 requires the repaired reader and declares
+its complete namespace dependencies. The remaining four package versions are
+unchanged and their regression suites pass with this package set.
+
+The returned tables still require enough RAM for the complete output. Use the
+generic `recover_saved_run.R` template in Step 2 when a completed run was retained.
+Package regression checks cover synthetic fixtures and existing public examples.
+They establish software behavior, not scientific calibration quality.
+
+No current working model, current model inputs, simulation output, private path,
+or row-level validation data is included in this update. Existing public reference
+inputs are retained. Generated models belong under the ignored `1_Setup/Temp` path.
+
 # SWAT-Workflow-R: SWAT+ revision 62 update
 
 This repository preserves the supplied workflow scripts before the update and the tested source overlay for SWAT+ revision 62.
@@ -5,9 +23,9 @@ This repository preserves the supplied workflow scripts before the update and th
 | Snapshot | Browse source |
 | --- | --- |
 | Supplied workflow before the update | [before-swat62-update](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/before-swat62-update) |
-| Tested revision 62 workflow | [swat62-workflow-v8](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v8) |
+| Tested revision 62 workflow | [swat62-workflow-v9](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/tree/swat62-workflow-v9) |
 
-**[Compare the old and updated workflow on GitHub](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/before-swat62-update...swat62-workflow-v8?w=1)**. GitHub shows removed lines in red and additions in green. The link hides whitespace-only changes. [Compare v7 to v8](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/swat62-workflow-v7...swat62-workflow-v8?w=1) to review the public path cleanup.
+**[Compare the old and updated workflow on GitHub](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/before-swat62-update...swat62-workflow-v9?w=1)**. GitHub shows removed lines in red and additions in green. The link hides whitespace-only changes. [Compare v7 to v8](https://github.com/MR-Eini/SWAT-Workflow-R-swat62/compare/swat62-workflow-v7...swat62-workflow-v8?w=1) to review the public path cleanup.
 
 The repository is a source overlay. Model inputs, GIS data, observations, executable files, generated results, and bundled R libraries remain in the original workspace. The original upstream project is [biopsichas/SWAT-Workflow-R](https://github.com/biopsichas/SWAT-Workflow-R).
 
@@ -37,10 +55,10 @@ The setup and NBS entry scripts source this helper themselves. It verifies packa
 
 | Package | Tested version | Repository |
 | --- | ---: | --- |
-| SWATreadR | 0.1.0.9014 | [MR-Eini/SWATreadR-swat62](https://github.com/MR-Eini/SWATreadR-swat62) |
-| SWATrunR | 1.1.0.9019 | [MR-Eini/SWATrunR-swat62](https://github.com/MR-Eini/SWATrunR-swat62) |
+| SWATreadR | 0.1.0.9015 | [MR-Eini/SWATreadR-swat62](https://github.com/MR-Eini/SWATreadR-swat62) |
+| SWATrunR | 1.1.0.9020 | [MR-Eini/SWATrunR-swat62](https://github.com/MR-Eini/SWATrunR-swat62) |
 | SWATtunR | 0.3.15 | [MR-Eini/SWATtunR-swat62](https://github.com/MR-Eini/SWATtunR-swat62) |
-| SWATdoctR | 0.1.31 | [MR-Eini/SWATdoctR-swat62](https://github.com/MR-Eini/SWATdoctR-swat62) |
+| SWATdoctR | 0.1.32 | [MR-Eini/SWATdoctR-swat62](https://github.com/MR-Eini/SWATdoctR-swat62) |
 | SWATfarmR | 4.0.5 | [MR-Eini/SWATfarmR-swat62](https://github.com/MR-Eini/SWATfarmR-swat62) |
 | SWATprepR | 1.0.16 | [MR-Eini/SWATprepR-swat62](https://github.com/MR-Eini/SWATprepR-swat62) |
 | SWATmeasR | 0.9.4 | [MR-Eini/SWATmeasR-swat62](https://github.com/MR-Eini/SWATmeasR-swat62) |

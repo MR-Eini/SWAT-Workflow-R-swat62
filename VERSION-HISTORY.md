@@ -1,3 +1,9 @@
+## Revision 62 source overlay v9
+
+- Require the repaired large-output reader, updated verifier and runner.
+- Add a model-independent retained-run reader template.
+- Ignore local model folders, outputs, session state and publication staging.
+
 # Workflow version history
 
 | Snapshot | Git tag | Purpose |
